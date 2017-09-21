@@ -4,6 +4,28 @@ var MyCoolAgent = require('./MyCoolAgent');
 
 var openConvs = {};
 
+
+var express = require('express');
+var app     = express();
+
+app.set('port', (process.env.PORT || 5000));
+
+//For avoidong Heroku $PORT error
+app.get('/', function(request, response) {
+    var result = 'App is running'
+    response.send(result);
+}).listen(app.get('port'), function() {
+    console.log('App is running, server is listening on port ', app.get('port'));
+});
+
+
+var https = require('https');
+
+setInterval(function() {
+    https.get("https://lp-tobiccsbot.herokuapp.com/");
+}, 600000); // every 5 minutes (300000) every 10 minutes (600000)
+
+
 // Set up Conversation service wrapper.
 var conversation = new ConversationV1({
   username: '1e4d4a45-9bce-47c4-8741-b02df5e38854',
